@@ -24,10 +24,6 @@ A sua primeira versão surgiu na Life International em 1962 da seguinte forma:
 */
 
 
-:- use_rendering(table,
-		 [header(atributosCasa('Casa', 'Nacionalidade', 'Cigarro', 'Bedida', 'Animal'))]).
-
-
 dono_da_zebra(Dono) :-
 	casas(ListaDeCasas),
 	member(atributosCasa(_,Dono,_,_,zebra), ListaDeCasas).
@@ -48,7 +44,7 @@ pai_de_qual_pet(CorCasa,Pet,Morador) :-
 
 casas(ListaDeCasas) :-
     % cada casa na ListaDeCasas é representada como:
-    %      c(Casa, Nacionalidade, Cigarro, Bedida, Animal)
+    %      (Casa, Nacionalidade, Cigarro, Bedida, Animal)
     
     % 1. Existem cinco casas.
 	length(ListaDeCasas, 5),
@@ -83,7 +79,7 @@ casas(ListaDeCasas) :-
     % 11. O homem que fuma Chesterfields vive na casa vizinha do homem que tem uma raposa.
     aoLado(atributosCasa(_,_,_,_,raposa), atributosCasa(_,_,chesterfield,_,_), ListaDeCasas),
     
-    % 12. Kools  é o cigarro da casa vizinha à casa onde existe um cavalo.    
+    % 12. Kools é o cigarro da casa vizinha à casa onde existe um cavalo.    
     aoLado(atributosCasa(_,_,kool,_,_), atributosCasa(_,_,_,_,cavalo), ListaDeCasas),
     
     % 13. O fumante de Lucky Strike bebe suco de laranja.
@@ -104,22 +100,20 @@ casas(ListaDeCasas) :-
     member(atributosCasa(_,_,_,agua,_), ListaDeCasas),    
     % "Quem é o dono da zebra?" ou seja, um deles tem uma zebra como animal
     member(atributosCasa(_,_,_,_,zebra), ListaDeCasas).
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
-aoLado(A, B, ListaAux) :- append(_, [A,B|_], ListaAux).
-aoLado(A, B, ListaAux) :- append(_, [B,A|_], ListaAux).
+aoLado(A, B, ListaAux) :-
+    append(_, [A,B|_], ListaAux).
+
+aoLado(A, B, ListaAux) :-
+    append(_, [B,A|_], ListaAux).
 
 /** <examples>
 ?- casas(Casas).
-
 ?- quem_bebe_agua(Aguado).
-
 ?- dono_da_zebra(Dono).
-
 ?- quem_mora_aqui(CorCasa,Morador).
-
 ?- pai_de_qual_pet(CorCasa,Pet,Morador).
-
 */
